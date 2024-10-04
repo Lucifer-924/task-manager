@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {TaskComponent} from './task/task.component';
 import {DUMMY_TASKS} from './task/dummy-tasks';
 import {NewTaskComponent} from './new-task/new-task.component';
+import {type NewTask} from '../dto/TasksDto';
 
 @Component({
   selector: 'app-tasks',
@@ -30,10 +31,20 @@ export class TasksComponent {
     this.taskList = this.taskList.filter((task) => task.id !== taskId);
   }
 
-  onAddNewTask(){
+  onStartAddNewTask(){
     this.isAddingTask = true;
   }
   onCancelTask(){
     this.isAddingTask = false;
+  }
+  onAddNewTask(newTask: NewTask) {
+    this.isAddingTask = false;
+    this.taskList.unshift({
+      id: new Date().getTime().toString(),
+      userId: this.userId,
+      title: newTask.title,
+      summary: newTask.summary,
+      dueDate: newTask.dueDate,
+    })
   }
 }
